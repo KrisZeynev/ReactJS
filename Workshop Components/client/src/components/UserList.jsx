@@ -11,7 +11,7 @@ import UserInfo from "./UserInfo";
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [showUserCreate, setShowUserCreate] = useState(false);
-  const [showUserInfo, setShowUserInfo] = useState(false);
+  const [userIdInfo, setUserIdInfo] = useState(null); // it can be () => undefined
 
   useEffect(() => {
     userService.getAll().then((result) => {
@@ -50,9 +50,9 @@ export default function UserList() {
     setShowUserCreate(false);
   };
 
-  const userInfoClickHandler = () => {
-    setShowUserInfo(true);
-    console.log('show info');
+  const userInfoClickHandler = (userid) => {
+    setUserIdInfo(userid);
+    console.log('show info', userid);
     
   }
 
@@ -69,7 +69,7 @@ export default function UserList() {
           />
         )}
 
-        {/* <UserInfo /> */}
+        {userIdInfo && <UserInfo userId={userIdInfo} /> }
 
         {/* <!-- Table component --> */}
         <div className="table-wrapper">

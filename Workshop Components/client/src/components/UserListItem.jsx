@@ -61,6 +61,7 @@ export default function UserListItem({
               ></path>
             </svg>
           </button>
+          {/* wrapper (1) or bind (2) */}
           <button className="btn info-btn" title="Info" onClick={() => onInfoClick(_id)}>
           {/* <button className="btn info-btn" title="Info" onInfoClick.bind({}, _id)}> */}
             <svg

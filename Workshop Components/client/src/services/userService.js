@@ -27,4 +27,11 @@ export default {
     const result = await response.json();
     return result;
   },
+
+  async getOne(userid) {
+    const response = await fetch(`${baseUrl}/userid`);
+    const result = await response.json();
+    const users = Object.values(result);
+    return users;
+  },
 };
