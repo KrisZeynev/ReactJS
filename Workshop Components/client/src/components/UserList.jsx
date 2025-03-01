@@ -6,10 +6,12 @@ import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 import UserListItem from "./UserListItem";
 import UserCreate from "./UserCreate";
+import UserInfo from "./UserInfo";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [showUserCreate, setShowUserCreate] = useState(false);
+  const [showUserInfo, setShowUserInfo] = useState(false);
 
   useEffect(() => {
     userService.getAll().then((result) => {
@@ -32,7 +34,9 @@ export default function UserList() {
     e.preventDefault();
 
     // get all the data from the form
-    const userData = Object.fromEntries(new FormData(e.target));
+    // const userData = Object.fromEntries(new FormData(e.target));
+    const formData = new FormData(e.target);
+    const userData = Object.fromEntries(formData);
 
     // create new user on the server
     const newUser = await userService.create(userData);
@@ -40,11 +44,17 @@ export default function UserList() {
 
     // currentUsers - the current users, this is the old state and we are updating based on it | 1 == 2
     // setUsers(currentUsers => [...currentUsers, newUser]) // 1
-    setUsers(state => [...state, newUser]) // 2
-    
+    setUsers((state) => [...state, newUser]); // 2
+
     // update local state
-    setShowUserCreate(false)
+    setShowUserCreate(false);
   };
+
+  const userInfoClickHandler = () => {
+    setShowUserInfo(true);
+    console.log('show info');
+    
+  }
 
   return (
     <>
@@ -58,6 +68,8 @@ export default function UserList() {
             onSave={saveCreateUserClickHandler}
           />
         )}
+
+        {/* <UserInfo /> */}
 
         {/* <!-- Table component --> */}
         <div className="table-wrapper">
@@ -224,7 +236,7 @@ export default function UserList() {
             </thead>
             <tbody>
               {users.map((user) => (
-                <UserListItem key={user._id} {...user} />
+                <UserListItem key={user._id} {...user} onInfoClick={userInfoClickHandler} />
               ))}
             </tbody>
           </table>
