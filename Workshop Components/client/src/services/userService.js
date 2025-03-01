@@ -28,10 +28,9 @@ export default {
     return result;
   },
 
-  async getOne(userid) {
-    const response = await fetch(`${baseUrl}/userid`);
-    const result = await response.json();
-    const users = Object.values(result);
-    return users;
+  async getOne(userId) {
+    const response = await fetch(`${baseUrl}/${userId}`);
+    const user = await response.json();
+    return user;
   },
 };
