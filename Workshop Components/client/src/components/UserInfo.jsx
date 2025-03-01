@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import userService from "../services/userService";
 import { fromIsoDate } from "../utils/dateTimeUtils";
 
-export default function UserInfo({userId}) {
+export default function UserInfo({ userId, onClose }) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -13,12 +13,12 @@ export default function UserInfo({userId}) {
   return (
     <>
       <div className="overlay">
-        <div className="backdrop"></div>
+        <div className="backdrop" onClick={onClose}></div>
         <div className="modal">
           <div className="detail-container">
             <header className="headers">
               <h2>User Detail</h2>
-              <button className="btn close">
+              <button className="btn close" onClick={onClose}>
                 <svg
                   aria-hidden="true"
                   focusable="false"
@@ -58,12 +58,10 @@ export default function UserInfo({userId}) {
                   Phone Number: <strong>{user.phoneNumber}</strong>
                 </p>
                 <p>
-                  Address:
-                  <strong>
-                    {" "}
-                    {user.address.country}, {user.address.city}, {user.address.street}{" "}
-                    {user.address.streetNumber}{" "}
-                  </strong>
+                    {/* !!! there is a neeed from optional condtion, because initially the address props are undefined */}
+                  Address: {user.address?.country}, {user.address?.city}, {user.address?.street}{" "}
+                  {user.address?.streetNumber}
+                  <strong> </strong>
                 </p>
 
                 <p>
