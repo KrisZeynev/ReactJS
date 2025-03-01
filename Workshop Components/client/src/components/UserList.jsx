@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import userService from "../services/userService";
 
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 import UserListItem from "./UserListItem";
 import UserCreate from "./UserCreate";
@@ -52,9 +52,12 @@ export default function UserList() {
 
   const userInfoClickHandler = (userid) => {
     setUserIdInfo(userid);
-    console.log('show info', userid);
-    
-  }
+    // console.log('show info', userid);
+  };
+
+  const userInfoCloseHandler = () => {
+    setUserIdInfo(null);
+  };
 
   return (
     <>
@@ -69,7 +72,9 @@ export default function UserList() {
           />
         )}
 
-        {userIdInfo && <UserInfo userId={userIdInfo} /> }
+        {userIdInfo && (
+          <UserInfo userId={userIdInfo} onClose={userInfoCloseHandler} />
+        )}
 
         {/* <!-- Table component --> */}
         <div className="table-wrapper">
@@ -236,7 +241,11 @@ export default function UserList() {
             </thead>
             <tbody>
               {users.map((user) => (
-                <UserListItem key={user._id} {...user} onInfoClick={userInfoClickHandler} />
+                <UserListItem
+                  key={user._id}
+                  {...user}
+                  onInfoClick={userInfoClickHandler}
+                />
               ))}
             </tbody>
           </table>
