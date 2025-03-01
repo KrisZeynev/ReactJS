@@ -1,14 +1,22 @@
-export default function UserCreate() {
+import { useState } from "react";
+
+export default function UserCreate({ onClose }) {
+  const [hideAddNewUserButton, setHideAddNewUserButton] = useState(false);
+
+  const hideAddUserButton = () => {
+    setHideAddNewUserButton(true);
+    // console.log('hide');
+  };
   return (
     <>
       {/* <!-- Create/Edit Form component  --> */}
       <div className="overlay">
-        <div className="backdrop"></div>
+        <div className="backdrop" onClick={onClose}></div>
         <div className="modal">
           <div className="user-container">
             <header className="headers">
               <h2>Edit User/Add User</h2>
-              <button className="btn close">
+              <button className="btn close" onClick={onClose}>
                 <svg
                   aria-hidden="true"
                   focusable="false"
@@ -124,7 +132,12 @@ export default function UserCreate() {
                 <button id="action-save" className="btn" type="submit">
                   Save
                 </button>
-                <button id="action-cancel" className="btn" type="button">
+                <button
+                  id="action-cancel"
+                  className="btn"
+                  type="button"
+                  onClick={onClose}
+                >
                   Cancel
                 </button>
               </div>
