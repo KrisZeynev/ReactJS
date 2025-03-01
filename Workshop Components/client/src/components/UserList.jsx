@@ -26,13 +26,38 @@ export default function UserList() {
     setShowUserCreate(false);
   };
 
+  // handler for save the new user
+  const saveCreateUserClickHandler = async (e) => {
+    // stop the default behaviour
+    e.preventDefault();
+
+    // get all the data from the form
+    const userData = Object.fromEntries(new FormData(e.target));
+
+    // create new user on the server
+    const newUser = await userService.create(userData);
+    // console.log(newUser);
+
+    // currentUsers - the current users, this is the old state and we are updating based on it | 1 == 2
+    // setUsers(currentUsers => [...currentUsers, newUser]) // 1
+    setUsers(state => [...state, newUser]) // 2
+    
+    // update local state
+    setShowUserCreate(false)
+  };
+
   return (
     <>
       <section className="card users-container">
         <SearchBar />
 
         {/* pass the new function as onClose */}
-        {showUserCreate && <UserCreate onClose={closeCreateUserClickHandler} />}
+        {showUserCreate && (
+          <UserCreate
+            onClose={closeCreateUserClickHandler}
+            onSave={saveCreateUserClickHandler}
+          />
+        )}
 
         {/* <!-- Table component --> */}
         <div className="table-wrapper">

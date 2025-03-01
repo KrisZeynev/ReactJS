@@ -6,7 +6,7 @@ export default function UserListItem({
   email,
   phoneNumber,
   createdAt,
-  imageUrl
+  imageUrl,
 }) {
   return (
     <>

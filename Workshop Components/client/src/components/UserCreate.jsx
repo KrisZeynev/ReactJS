@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function UserCreate({ onClose }) {
+export default function UserCreate({ onClose, onSave }) {
   const [hideAddNewUserButton, setHideAddNewUserButton] = useState(false);
 
   const hideAddUserButton = () => {
@@ -34,7 +34,7 @@ export default function UserCreate({ onClose }) {
                 </svg>
               </button>
             </header>
-            <form>
+            <form onSubmit={onSave}>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="firstName">First name</label>
@@ -129,7 +129,12 @@ export default function UserCreate({ onClose }) {
                 </div>
               </div>
               <div id="form-actions">
-                <button id="action-save" className="btn" type="submit">
+                <button
+                  id="action-save"
+                  className="btn"
+                  type="submit"
+                  
+                >
                   Save
                 </button>
                 <button
