@@ -1,7 +1,9 @@
-export default function Search() {
+export default function Search({ onSearch, search, criteria, onClean }) {
+  // console.log(search.length);
+
   return (
     <>
-      <form className="search-form">
+      <form className="search-form" onSubmit={onSearch}>
         <h2>
           <svg
             aria-hidden="true"
@@ -27,9 +29,11 @@ export default function Search() {
             name="search"
           />
           {/* <!-- Show the clear button only if input field length !== 0 --> */}
-          <button className="btn close-btn">
-            <i className="fa-solid fa-xmark"></i>
-          </button>
+          {search?.length > 0 && (
+            <button className="btn close-btn" onClick={onClean}>
+              <i className="fa-solid fa-xmark"></i>
+            </button>
+          )}
 
           <button className="btn" title="Please, select the search criteria">
             <i className="fa-solid fa-magnifying-glass"></i>

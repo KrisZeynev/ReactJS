@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import userService from "../services/userService";
 
-// import Pagination from "./Pagination";
+import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 import UserListItem from "./UserListItem";
 import UserCreate from "./UserCreate";
@@ -15,6 +15,8 @@ export default function UserList() {
   const [userIdInfo, setUserIdInfo] = useState(null); // it can be () => undefined
   const [userIdDelete, setUserIdDelete] = useState(null);
   const [userIdEdit, setUserIdEdit] = useState(null);
+  const [searchData, setSearchData] = useState({});
+  // const [cleanSearch, setCleanSearch] = useState(false);
 
   useEffect(() => {
     userService.getAll().then((result) => {
@@ -109,10 +111,26 @@ export default function UserList() {
     setUserIdEdit(null);
   };
 
+  const searchBarHandler = (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target))
+    setSearchData(data)
+    console.log('searching information', data);
+  }
+
+  const clearSearchCloseHandler = (e) => {
+    setSearchData(state => ({...state, search: ''}))
+    // console.log();
+    e.currentTarget.previousElementSibling.value = ''
+    console.log('clear input');
+    
+  }
+
   return (
     <>
       <section className="card users-container">
-        <SearchBar />
+        <SearchBar onSearch={searchBarHandler} {...searchData} onClean={clearSearchCloseHandler}/>
+        {/* onClean={clearSearchCloseHandler} cleanOrNot={cleanSearch} */}
 
         {/* pass the new function as onClose */}
         {showUserCreate && (
