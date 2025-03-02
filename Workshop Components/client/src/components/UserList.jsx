@@ -7,11 +7,13 @@ import SearchBar from "./SearchBar";
 import UserListItem from "./UserListItem";
 import UserCreate from "./UserCreate";
 import UserInfo from "./UserInfo";
+import UserDelete from "./UserDelete";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [showUserCreate, setShowUserCreate] = useState(false);
   const [userIdInfo, setUserIdInfo] = useState(null); // it can be () => undefined
+  const [userIdDelete, setUserIdDelete] = useState(null);
 
   useEffect(() => {
     userService.getAll().then((result) => {
@@ -59,6 +61,26 @@ export default function UserList() {
     setUserIdInfo(null);
   };
 
+  const userDeleteClickHandler = (userId) => {
+    setUserIdDelete(userId);
+  };
+
+  const userDeleteCloseHandler = () => {
+    setUserIdDelete(null);
+  };
+
+  // will use the already set user for delete click handler
+  const userDeleteHandler = async () => {
+    // delete request to server
+    await userService.deleteOne(userIdDelete);
+
+    // delete from local state
+    setUsers((state) => state.filter((user) => user._id !== userIdDelete));
+
+    // close modal
+    setUserIdDelete(null);
+  };
+
   return (
     <>
       <section className="card users-container">
@@ -74,6 +96,13 @@ export default function UserList() {
 
         {userIdInfo && (
           <UserInfo userId={userIdInfo} onClose={userInfoCloseHandler} />
+        )}
+
+        {userIdDelete && (
+          <UserDelete
+            onClose={userDeleteCloseHandler}
+            onDelete={userDeleteHandler}
+          />
         )}
 
         {/* <!-- Table component --> */}
@@ -245,6 +274,7 @@ export default function UserList() {
                   key={user._id}
                   {...user}
                   onInfoClick={userInfoClickHandler}
+                  onDeleteClick={userDeleteClickHandler}
                 />
               ))}
             </tbody>

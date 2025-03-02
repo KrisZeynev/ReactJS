@@ -4,6 +4,7 @@ import { fromIsoDate } from "../utils/dateTimeUtils";
 
 export default function UserInfo({ userId, onClose }) {
   const [user, setUser] = useState({});
+  // const [user, setUser] = useState({address:{}}); or optional chainging as it's currently
 
   useEffect(() => {
     userService.getOne(userId).then((res) => {
