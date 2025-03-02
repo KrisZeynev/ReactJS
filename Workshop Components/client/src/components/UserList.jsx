@@ -116,6 +116,7 @@ export default function UserList() {
     const data = Object.fromEntries(new FormData(e.target))
     setSearchData(data)
     console.log('searching information', data);
+    setUsers(state => state.filter(user => user?.firstName === searchData.search))
   }
 
   const clearSearchCloseHandler = (e) => {
@@ -123,8 +124,9 @@ export default function UserList() {
     // console.log();
     e.currentTarget.previousElementSibling.value = ''
     console.log('clear input');
-    
+    // setUsers(state => state)
   }
+  
 
   return (
     <>
@@ -166,8 +168,9 @@ export default function UserList() {
             {/* <div className="loading-shade"> */}
             {/* <!-- Loading spinner  --> */}
             {/* <div className="spinner"></div> */}
+
             {/* No users added yet */}
-            {/* <div className="table-overlap">
+            {users.length === 0 && <div className="table-overlap">
                 <svg
                   aria-hidden="true"
                   focusable="false"
@@ -184,7 +187,9 @@ export default function UserList() {
                   ></path>
                 </svg>
                 <h2>There is no users yet.</h2>
-              </div> */}
+              </div>}
+
+
             {/* <!-- No content overlap component  --> */}
             {/* <div className="table-overlap">
                 <svg
